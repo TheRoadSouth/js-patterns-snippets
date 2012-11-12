@@ -23,6 +23,18 @@
 			C.uber = P.prototype; 
 			C.prototype.constructor = C;
 		}
+		
+		// or to avoid having to create the temporary (proxy)
+		// constructor every time you need inheritance
+		var inherit = (function () { 
+			var F = function () {};
+			return function (C, P) {
+				F.prototype = P.prototype;
+				C.prototype = new F();
+				C.uber = P.prototype;
+				C.prototype.constructor = C;
+			}
+		}());
 		</script>
 	</head>
     <body>
