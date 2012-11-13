@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+        <script type="text/javascript">
+        	/**
+        	 * Inheritance by copying properties (Stoyan Stefanov)
+        	 * 
+        	 * @param  {object} parent Object to inherit from
+        	 * @param  {object} child  Object that inherits
+        	 * @return {object}        Child object with properties copies from Parent
+        	 */
+        	function extendDeep(parent, child) {
+        		var i,
+        			toStr = Object.prototype.toString,
+        			aStr = "[object Array]";
+
+    			child = child || {};
+
+    			for (i in parent) {
+    				if (parent.hasOwnProperty(i)) {
+    					if (typeof parent[i] === "object") {
+    						child[i] = (toStr.call(parent[i]) === astr) ? [] : {});
+							extendDeep(parent[i], child[i]);
+    					} else {
+    						child[i] = parent[i];
+    					}
+    				}
+    			}
+    			return child;
+        	}
+
+        	// testing
+        	var dad = {
+        		counts: [1, 2, 3],
+        		reads: {paper: true}
+        	};
+        	var kid = extendDeep(dad);
+
+        	kid.counts.push(4);
+        	kid.counts.toString(); // "1,2,3,4"
+        	dad.counts.toString(); // "1,2,3"
+
+        	dad.reads === kid.reads; // false
+        	kid.reads.paper = false;
+        </script>
+    </head>
+    <body>
+    	<h1>Inheritance by Copying Properties</h1>
+    </body>
+</html>
