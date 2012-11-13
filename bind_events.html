@@ -13,7 +13,40 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
         <script type="text/javascript">
+			// problem is passing as a callback points to the global object
+			var yetanother = {
+				name: "Yet another object",
+				method: function (callback) {
+					return callback('Hola');
+				}
+			};
+			yetanother.method(one.say); // "Hola, undefined"
 
+			// bind function from Stoyan Stefanov
+			// This bind() function accepts an object o and a method m, binds the two together, 
+			// and then returns another function. The returned function has access to o and m via
+			// a closure. Therefore even after bind() returns, the inner function will have access 
+			// to o and m, which will always point to the original object and method.
+			function bind(o, m) {
+				return function () {
+					return m.apply(o, [].slice.call(arguments));
+				};
+			}
+			
+			// use
+			var one = {
+				name: "object",
+				say: function (greet) {
+					return greet + ", " + this.name;
+				}
+			};
+			
+			var two = {
+				name: "another object";
+			};
+
+			var twosay = bind(two, one.say);
+			twosay('yo'); // "yo, another object"
         </script>
     </head>
     <body>
