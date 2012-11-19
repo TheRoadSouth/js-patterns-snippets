@@ -37,14 +37,24 @@
 		}());
 		
 		function Parent() {};
-		Parent.prototype.hair = "brown";
-		
+		Parent.prototype.hair = "grey";
+		Parent.prototype.politics = "conservative";
+		Parent.prototype.homestate = "California";
 		function Child() {};
+		
 		inherit2(Child, Parent);
+
+		Child.prototype.hair = "pink";
+		Child.prototype.politics = "liberal";
 		
 		var kid = new Child();
+		var kid2 = new Child();
+		kid2.homestate = "New York";
+		kid2.hair = "black";
 		
-		console.log(kid.hair, kid.constructor);
+		console.log(kid.hair + " hair", kid.politics, kid.homestate, kid.constructor); // brown hair liberal California Child()
+		console.log(kid2.hair + " hair", kid2.politics, kid2.homestate, kid2.constructor); // black hair liberal New York Child()
+		
 		</script>
 	</head>
     <body>
