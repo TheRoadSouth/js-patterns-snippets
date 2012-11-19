@@ -47,6 +47,27 @@
 
 			var twosay = bind(two, one.say);
 			twosay('yo'); // "yo, another object"
+			
+			// in ECMASCRIPT 5 we can use the built in bind function
+			// binds someFunc() and myobj and prefills first 3 arguments someFunc() expects
+			var newFunc = obj.someFunc.bind(myobj, 1, 2, 3);
+			
+			// in pre-ES5 environments we can do this
+			if (typeof Function.prototype.bind === "undefined") {
+				Function.prototype.bind = function (thisArg) {
+					var fn = this,
+					slice = Array.prototype.slice,
+					args = slice.call(arguments, 1);
+					
+					return function () {
+						return fn.apply(thisArg, args.concat(slice.call(arguments)));
+					};
+				};
+			}
+			
+			// example use of the above
+			var twosay3 = one.say.bind(two, 'Enchanté');
+			twosay3(); // "Enchanté, another object"
         </script>
     </head>
     <body>

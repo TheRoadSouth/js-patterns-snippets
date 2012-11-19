@@ -16,7 +16,7 @@
 		* The "holy grail" of classical inheritance
 		* according to Stoyan Stefanov
 		*/
-		function inherit(C, P) { 
+		function inherit1(C, P) { 
 			var F = function () {}; 
 			F.prototype = P.prototype; 
 			C.prototype = new F(); 
@@ -26,7 +26,7 @@
 		
 		// or to avoid having to create the temporary (proxy)
 		// constructor every time you need inheritance
-		var inherit = (function () { 
+		var inherit2 = (function () { 
 			var F = function () {};
 			return function (C, P) {
 				F.prototype = P.prototype;
@@ -35,6 +35,16 @@
 				C.prototype.constructor = C;
 			}
 		}());
+		
+		function Parent() {};
+		Parent.prototype.hair = "brown";
+		
+		function Child() {};
+		inherit2(Child, Parent);
+		
+		var kid = new Child();
+		
+		console.log(kid.hair, kid.constructor);
 		</script>
 	</head>
     <body>
