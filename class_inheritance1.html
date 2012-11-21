@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>Class Inheritance 1</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+        <script type="text/javascript">
+			var MyClass = (function () {
+			    // private static
+			    var _next_id = 1;
+
+			    // constructor
+			    var cls = function () {
+			    	// private
+			    	var _id = _next_id++;
+			    	var _name = 'Unknown';
+
+			    	// public (this instance only)
+			    	this.getId = function () { return _id; };
+
+			    	this.getName = function () { return _name; };
+			    	this.setName = function (value) {
+			    		if (typeof value !== 'string')
+			    			throw 'Name must be a string';
+			    		_name = value;
+			    	};
+			    };
+
+			    // public static
+			    cls.getNextId = function () {
+			    	return _next_id;
+			    };
+
+			    // public (shared across instances) but can be overidden
+			    cls.prototype = {
+			    	info: function () {
+			    		console.log('ID: ' + this.getId() + ' Name: ' + this.getName() + ' Next ID: ' + MyClass.getNextId());
+			    	}
+			    };
+
+			    return cls;
+			})();
+
+			Obj = new MyClass();
+			Obj2 = new MyClass();
+			Obj3 = new MyClass();
+
+			Obj2.setName("Object2Name");
+			Obj3.setName('Object3Name');
+
+			Obj3.info = function () { console.log('func overidden')};
+
+			console.log(Obj, Obj2);
+			console.log(Obj.info(), Obj2.info(), Obj3.info(), Obj2.getName());
+        </script>
+    </head>
+    <body>
+        <h1>Class Inheritance 1</h1>
+    </body>
+</html>
